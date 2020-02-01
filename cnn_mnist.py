@@ -8,10 +8,14 @@ from keras.layers import Dense
 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-print("Test data size " + str(x_train.shape))
+print("Train data size " + str(x_train.shape))
 print(y_train.shape)
-print("Train test data size " + str(x_test.shape))
+print("Test test data size " + str(x_test.shape))
 print(y_test.shape)
+
+import matplotlib.pyplot as plt
+plt.imshow(x_train[0])
+plt.show()
 
 
 # check image data format. TensorFlow has channels_last format
@@ -49,14 +53,14 @@ model.add(Conv2D(32, # number of features
                  activation = 'relu'
                  ))
 
+#Add Convolution layer 2
+model.add(Conv2D(64,
+                 kernel_size = (3, 3),
+                 activation = 'relu'))
+
 # Add MaxPooling layer to decrese the size of the feature maps
 model.add(MaxPooling2D(pool_size = (2, 2)))
 
-#EXTRA CONVOLUTION LAYER TO IMPROVE ACCURACY
-model.add(Conv2D(32,
-                 kernel_size = (3, 3),
-                 activation = 'relu'))
-model.add(MaxPooling2D(pool_size = (2, 2)))
 
 # Add Flatten layer to convert 2d to vector
 model.add(Flatten())
