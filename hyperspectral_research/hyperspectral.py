@@ -80,6 +80,7 @@ from keras.layers import Conv1D
 from keras.layers import MaxPooling1D
 from keras.layers import Dense
 from keras.layers import Flatten
+import keras.backend as K
 
 model = Sequential()
 
@@ -108,7 +109,24 @@ model.compile(loss=keras.losses.categorical_crossentropy,
 
 model.fit(X_train, Y_train,
           batch_size=32,
-          epochs=200)
+          epochs=50)
+
+print(model.summary())
+layer = model.get_layer(index=0)
+weights = layer.get_weights()
+weights = np.array(weights)
+weights = weights[0]
+weights = np.transpose(weights)
+print(weights)
+print(weights.shape)
+print(np.transpose(weights[0]).shape)
+
+import matplotlib.pyplot as plt
+for x in weights:
+    plt.plot(np.transpose(x))
+plt.ylabel('some numbers')
+plt.show()
+
 
 y_pred = model.predict_classes(X_test)
 
