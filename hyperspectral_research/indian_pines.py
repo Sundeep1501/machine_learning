@@ -99,7 +99,12 @@ print(Y_train.shape)
 print(X_test.shape)
 print(Y_test.shape)
 
+np.save('X_train', X_train)
+np.save('Y_train', Y_train)
+np.save('X_test', X_test)
+np.save('Y_test', Y_test)
 
+from x import y
 
 # <<<<<<<<<< PART 2 >>>>>>>>>>>
 # Apply CNN model for the Dataset
@@ -110,13 +115,24 @@ from keras.layers import Dense
 from keras.layers import Flatten
 import keras.backend as K
 
+
+salinas_model = load_model('salinas1.h5')
+weights = salinas_model.get_layer(index=0).get_weights()
+weights = np.array(weights)
+weights = weights[0]
+weights = np.transpose(weights)
+print(weights.shape)
+
+
 model = Sequential()
 
 # Add Conv1D layer which takes band vector of each pixel
 model.add(Conv1D(filters=64,
                 kernel_size=10,
                 input_shape=(X_train.shape[1],1),
-                activation='relu'
+                activation='relu',
+                kernel_initializer = keras.initializers.constant(weights),
+                trainable=False
                 ))
 
 # Add MaxPooling layer to decrese the size of the feature maps
@@ -157,7 +173,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 print(classification_report(np.argmax(Y_test, axis=1), y_pred, target_names=target_labels))
 cm = confusion_matrix(np.argmax(Y_test, axis=1), y_pred)
 print(cm)
-model.save('indian_pines_5.h5')
+model.save('indian_pines_6.h5')
 
 # model = load_model('my_model.h5')
 

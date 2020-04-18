@@ -76,6 +76,14 @@ model.add(Conv1D(filters=64,
 # Add MaxPooling layer to decrese the size of the feature maps
 model.add(MaxPooling1D(pool_size = 2))
 
+# Add Conv1D layer which takes band vector of each pixel
+model.add(Conv1D(filters=64,
+                 kernel_size=10,
+                 activation='relu'))
+
+# Add MaxPooling layer to decrese the size of the feature maps
+model.add(MaxPooling1D(pool_size = 2))
+
 # Add Flatten layer to convert 2d to vector
 model.add(Flatten())
 
@@ -93,4 +101,4 @@ model.compile(loss=keras.losses.categorical_crossentropy,
 model.fit(X_train, Y_train,
             batch_size=32,
             epochs=200)
-model.save('salinas.h5')
+model.save('salinas1.h5')
